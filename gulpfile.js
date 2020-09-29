@@ -21,37 +21,37 @@ const RELEASE_DIR = './release';
 gulp.task('clean', () => del(BUILD_DIR));
 
 gulp.task('configs', () => {
-  return gulp.src(`${SRC_DIR}/manifest.json`).pipe(gulp.dest(BUILD_DIR));
+    return gulp.src(`${SRC_DIR}/manifest.json`).pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('icons', () => {
-  return gulp.src(`${SRC_DIR}/icons/**/*.png`).pipe(gulp.dest(`${BUILD_DIR}/icons`));
+    return gulp.src(`${SRC_DIR}/icons/**/*.png`).pipe(gulp.dest(`${BUILD_DIR}/icons`));
 });
 
 gulp.task('scripts', () => {
-  return gulp.src(`${SRC_DIR}/js/*.js`)
-    .pipe(vinylNamed())
-    .pipe(webpackStream(webpackConfig, webpack))
-    .pipe(gulp.dest(`${BUILD_DIR}/js`));
+    return gulp.src(`${SRC_DIR}/js/*.js`)
+        .pipe(vinylNamed())
+        .pipe(webpackStream(webpackConfig, webpack))
+        .pipe(gulp.dest(`${BUILD_DIR}/js`));
 });
 
 gulp.task('scripts:dist', ['scripts'], () => {
-  return gulp.src(`${BUILD_DIR}/js/**/*.js`)
-    .pipe(uglify())
-    .pipe(headerLicense('/* ' + fs.readFileSync('./LICENSE') + '*/'))
-    .pipe(gulp.dest(`${BUILD_DIR}/js`));
+    return gulp.src(`${BUILD_DIR}/js/**/*.js`)
+        .pipe(uglify())
+        .pipe(headerLicense('/* ' + fs.readFileSync('./LICENSE') + '*/'))
+        .pipe(gulp.dest(`${BUILD_DIR}/js`));
 });
 
 gulp.task('build', ['configs', 'icons', 'scripts']);
 gulp.task('build:dist', ['configs', 'icons', 'scripts:dist']);
 
 gulp.task('release', ['build:dist'], () => {
-  const manifest = require(`${BUILD_DIR}/manifest.json`);
-  return gulp.src(`${BUILD_DIR}/**/*`)
-    .pipe(zip(`json-formatter-${manifest.version}.zip`))
-    .pipe(gulp.dest(RELEASE_DIR));
+    const manifest = require(`${BUILD_DIR}/manifest.json`);
+    return gulp.src(`${BUILD_DIR}/**/*`)
+        .pipe(zip(`json-formatter-${manifest.version}.zip`))
+        .pipe(gulp.dest(RELEASE_DIR));
 });
 
 gulp.task('watch', ['build'], () => {
-  return gulp.watch(`${SRC_DIR}/**/*`, ['build']);
+    return gulp.watch(`${SRC_DIR}/**/*`, ['build']);
 });
