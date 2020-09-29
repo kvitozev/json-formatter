@@ -68,12 +68,10 @@ function tokenize(jsonString) {
                     currentNode.setAttribute('line-number', lineNumber++);
                 }
 
+                const openingBrace = templates.openingBrace();
                 // Generate color for opening brace.
                 // The same color will be used for the closing one.
-                const color = randomArrayItem(COLORS);
-
-                const openingBrace = templates.openingBrace();
-                openingBrace.style.color = color;
+                openingBrace.style.color = randomArrayItem(COLORS);
 
                 currentNode.appendChild(templates.expander());
                 currentNode.appendChild(openingBrace);
@@ -117,8 +115,13 @@ function tokenize(jsonString) {
                     currentNode.setAttribute('line-number', lineNumber++);
                 }
 
+                const openingBracket = templates.openingBracket();
+                // Generate color for opening brace.
+                // The same color will be used for the closing one.
+                openingBracket.style.color = randomArrayItem(COLORS);
+
                 currentNode.appendChild(templates.expander());
-                currentNode.appendChild(templates.openingBracket());
+                currentNode.appendChild(openingBracket);
                 currentNode.appendChild(templates.ellipsis());
 
                 const arrayInner = templates.blockInner();
@@ -136,7 +139,13 @@ function tokenize(jsonString) {
                 const arrayContentNode = currentNode;
                 currentNode = currentNode.parentNode;
 
+                // Find the closest opening brace, because we need it
+                // in order to match the color of closing one with it.
+                const matchingOpeningBracket = currentNode.querySelector('.brace');
+
                 const closingBracket = templates.closingBracket();
+                closingBracket.style.color = matchingOpeningBracket.style.color;
+
                 currentNode.appendChild(closingBracket);
 
                 if (arrayContentNode.innerText.length) {
