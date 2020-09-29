@@ -2,6 +2,8 @@
 
 import {createSpan, Templates} from './template';
 import JsonTokenizer from 'json-tokenizer';
+import {randomArrayItem, getClosestParentElement} from './utilities';
+import {COLORS} from './constants';
 
 let lineNumber;
 
@@ -66,8 +68,15 @@ function tokenize(jsonString) {
                     currentNode.setAttribute('line-number', lineNumber++);
                 }
 
+                // Generate color for opening brace.
+                // The same color will be used for the closing one.
+                const color = randomArrayItem(COLORS);
+
+                const openingBrace = templates.openingBrace();
+                openingBrace.style.color = color;
+
                 currentNode.appendChild(templates.expander());
-                currentNode.appendChild(templates.openingBrace());
+                currentNode.appendChild(openingBrace);
                 currentNode.appendChild(templates.ellipsis());
 
                 const objectInner = templates.blockInner();
@@ -85,7 +94,13 @@ function tokenize(jsonString) {
                 const objectContentNode = currentNode;
                 currentNode = currentNode.parentNode;
 
+                // Find the closest opening brace, because we need it
+                // in order to match the color of closing one with it.
+                const matchingOpeningBrace = currentNode.querySelector('.brace');
+
                 const closingBrace = templates.closingBrace();
+                closingBrace.style.color = matchingOpeningBrace.style.color;
+
                 currentNode.appendChild(closingBrace);
 
                 if (objectContentNode.childNodes.length) {

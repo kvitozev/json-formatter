@@ -102,3 +102,7 @@ export function firstJSONCharIndex(str) {
 
     return index;
 }
+
+export function randomArrayItem(items) {
+    return items[Math.floor(Math.random() * items.length)];
+}
