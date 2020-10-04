@@ -1,10 +1,10 @@
 {
-  "name": "JSON Formatter",
-  "version": "0.11.0",
+  "name": "Rainbow JSON Formatter",
+  "version": "0.1.0",
   "manifest_version": 2,
   "description": "Makes JSON easy to read. Open source.",
-  "homepage_url": "https://github.com/nikrolls/json-formatter",
-  "author": "Nik Rolls, Callum Locke",
+  "homepage_url": "https://github.com/vitozev/json-formatter",
+  "author": "Kristian Vitozev",
   "minimum_edge_version": "40",
   "minimum_chrome_version": "21",
   "icons": {
