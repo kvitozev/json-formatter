@@ -2,8 +2,8 @@
 
 import {createSpan, Templates} from './template';
 import JsonTokenizer from 'json-tokenizer';
-import randomColor from 'randomcolor';
 import {randomArrayItem, getClosestParentElement} from './utilities';
+import * as randomColor from 'random-material-color';
 
 let lineNumber;
 
@@ -71,10 +71,7 @@ function tokenize(jsonString) {
                 const openingBrace = templates.openingBrace();
                 // Generate color for opening brace.
                 // The same color will be used for the closing one.
-                openingBrace.style.color = randomColor({
-                    luminosity: 'dark',
-                    hue: 'random'
-                });
+                openingBrace.style.color = randomColor.getColor();
 
                 currentNode.appendChild(templates.expander());
                 currentNode.appendChild(openingBrace);
@@ -121,10 +118,7 @@ function tokenize(jsonString) {
                 const openingBracket = templates.openingBracket();
                 // Generate color for opening brace.
                 // The same color will be used for the closing one.
-                openingBracket.style.color = randomColor({
-                    luminosity: 'dark',
-                    hue: 'random'
-                });
+                openingBracket.style.color = randomColor.getColor();
 
                 currentNode.appendChild(templates.expander());
                 currentNode.appendChild(openingBracket);
