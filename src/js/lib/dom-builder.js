@@ -67,11 +67,12 @@ function tokenize(jsonString) {
                 if (!currentNode.classList.contains('objectProperty')) {
                     currentNode.setAttribute('line-number', lineNumber++);
                 }
+				// Generate color for opening brace.
+                // The same color will be used for the closing one.
+				let openingBraceColor = randomColor.getColor();
 
                 const openingBrace = templates.openingBrace();
-                // Generate color for opening brace.
-                // The same color will be used for the closing one.
-                openingBrace.style.color = randomColor.getColor();
+                openingBrace.style.color = openingBraceColor;
 
                 currentNode.appendChild(templates.expander());
                 currentNode.appendChild(openingBrace);
@@ -79,6 +80,7 @@ function tokenize(jsonString) {
 
                 const objectInner = templates.blockInner();
                 objectInner.tokenType = 'object';
+				objectInner.style.borderColor = openingBraceColor;
 
                 currentNode.appendChild(objectInner);
                 currentNode = objectInner;
